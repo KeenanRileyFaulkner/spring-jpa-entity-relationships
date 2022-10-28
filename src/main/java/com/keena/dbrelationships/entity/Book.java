@@ -22,8 +22,16 @@ public class Book {
     private String title;
 
     private Long isbn;
+
+    /*
+     * when defining table column name, the convention is to use underscore "_"
+     */
+    @Column(name = "total_pages")
     private Integer totalPages;
+
     private Double rating;
+
+    @Column(name = "published_date")
     private Date publishedDate;
 
     @OneToOne(cascade = CascadeType.ALL)

@@ -18,12 +18,16 @@ public class Author {
     @Column(name = "author_id")
     private Long id;
 
-    @Column(nullable = false)
+    /*
+     * when defining table column name, the convention is to use underscore "_"
+     */
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Column(name = "birth_date")
     private Date birthDate;
 
     @ManyToMany
