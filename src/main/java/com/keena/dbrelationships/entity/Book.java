@@ -1,16 +1,20 @@
 package com.keena.dbrelationships.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-@Data
+//@Data
 @Entity
 @Table(name = "book")
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
 public class Book {
 
     @Id
@@ -46,6 +50,45 @@ public class Book {
     )
     private Collection<Category> categories;
 
-    @ManyToMany(mappedBy = "books")
+    @ManyToMany(mappedBy = "books", cascade = CascadeType.PERSIST)
     private Collection<Author> authors;
+
+    public Collection<Category> getCategories() {
+        if(categories == null) {
+            categories = new ArrayList<>();
+        }
+        return categories;
+    }
+
+    public Collection<Author> getAuthors() {
+        if(authors == null) {
+            authors = new ArrayList<>();
+        }
+        return authors;
+    }
+
+    public void addPhoto(Photo photo) {
+        this.photo = photo;
+        photo.setBook(this);
+    }
+
+    public void addAuthor(Author author) {
+        this.getAuthors().add(author);
+        author.getBooks().add(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", isbn=" + isbn +
+                ", totalPages=" + totalPages +
+                ", rating=" + rating +
+                ", publishedDate=" + publishedDate +
+                ", photo=" + photo +
+                ", categories.size=" + getCategories().size() +
+                ", authors=" + getAuthors() +
+                '}';
+    }
 }
